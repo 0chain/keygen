@@ -12,13 +12,13 @@ if [[ $? -ne 0 ]]; then
 fi
 
 sudo docker build -t ${REGISTRY_IMAGE}:${TAG}  .
-sudo docker pull ${REGISTRY_IMAGE}:latest
-sudo docker tag ${REGISTRY_IMAGE}:latest ${REGISTRY_IMAGE}:stable_latest
-echo "Re-tagging the remote latest tag to stable_latest"
-sudo docker push ${REGISTRY_IMAGE}:stable_latest
-sudo docker tag ${REGISTRY_IMAGE}:${TAG} ${REGISTRY_IMAGE}:latest
+sudo docker pull ${REGISTRY_IMAGE}:0miner
+sudo docker tag ${REGISTRY_IMAGE}:0miner ${REGISTRY_IMAGE}:0miner_stable_latest
+echo "Re-tagging the remote latest tag to 0miner_stable_latest"
+sudo docker push ${REGISTRY_IMAGE}:0miner_stable_latest
+sudo docker tag ${REGISTRY_IMAGE}:${TAG} ${REGISTRY_IMAGE}:0miner
 echo "Pushing the new latest tag to dockerhub"
-sudo docker push ${REGISTRY_IMAGE}:latest
+sudo docker push ${REGISTRY_IMAGE}:0miner
 echo "Pushing the new tag to dockerhub tagged as ${REGISTRY_IMAGE}:${TAG}"
 sudo docker push ${REGISTRY_IMAGE}:${TAG}
 fi

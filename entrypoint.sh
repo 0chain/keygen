@@ -1,14 +1,19 @@
 #!/bin/bash
-#set -x
-#MINER=3
-#SHARDER=2
-#BLOBBER=4
-#PUBLIC_ENDPOINT=example.com
-#MPORT=707
-#SPORT=717
-#dtype=PUBLIC
+# set -x
+# MINER=3
+# SHARDER=2
+# BLOBBER=4
+# PUBLIC_ENDPOINT=example.com
+host_address=$PUBLIC_ENDPOINT
+host_ip=$PUBLIC_IP
+# MPORT=707
+# SPORT=717
+# BPORT=727
+# dtype=PUBLIC
+# port=123
 
-echo "v1.0.15"
+echo "v1.0.17"
+echo ${host_address}
 
 validate_port() {
   if [[ $1 -lt 10 ]]; then
@@ -23,8 +28,10 @@ key_gen_miner() {
   for n in $(seq 1 $(($1 + 0))); do
     on=$n
     n=$(validate_port $n)
+    port=${3}${n}
+    path=${5}${n}
     echo -e "Creating keys for $5-${n}.. \n"
-    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0$4node${n}_keys.txt" --keys_file_path "/ms-keys" --generate_keys=true --print_private=true  >>/config/nodes.yaml
+    /0chain/go/0chain.net/core/keys_file --host_url ${host_address} --n2n_ip ${host_ip} --port ${port} --path ${path} --keys_file /ms-keys/b0$4node${n}_keys.txt >>/config/nodes.yaml
     status=$?
     local n2n_ip="$5-${n}"
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
@@ -32,8 +39,8 @@ key_gen_miner() {
       cat <<EOF >>/config/nodes.yaml
   n2n_ip: ${n2n_ip}               
   public_ip: $2                   
-  port: ${3}${n}    
-  path: ${5}${n}               
+  port: ${3}${n}
+  path: ${5}${n}             
   description: localhost.$4${n} 
   set_index: $((${on} - 1))
 EOF
@@ -49,8 +56,10 @@ key_gen() {
   echo "${5}s:" >>/config/nodes.yaml
   for n in $(seq 1 $(($1 + 0))); do
     n=$(validate_port $n)
+    port=${3}${n}
+    path=${5}${n}
     echo -e "Creating keys for $5-${n}.. \n"
-    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0$4node${n}_keys.txt" --keys_file_path "/ms-keys" --generate_keys true  >>/config/nodes.yaml
+    /0chain/go/0chain.net/core/keys_file --host_url ${host_address} --n2n_ip ${host_ip} --port ${port} --path ${path} --keys_file /ms-keys/b0$4node${n}_keys.txt >>/config/nodes.yaml
     status=$?
     local n2n_ip="$5-${n}"
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
@@ -58,8 +67,35 @@ key_gen() {
       cat <<EOF >>/config/nodes.yaml
   n2n_ip: ${n2n_ip}              
   public_ip: $2                   
-  port: ${3}${n}             
-  path: ${5}${n}      
+  port: ${3}${n}
+  path: ${5}${n}             
+  description: localhost.$4${n} 
+EOF
+    else
+      echo "Key generation failed"
+      exit $retValue
+    fi
+
+  done
+}
+
+key_gen_blobber() {
+  echo "${5}s:" >>/config/nodes.yaml
+  for n in $(seq 1 $(($1 + 0))); do
+    n=$(validate_port $n)
+    port=${3}${n}
+    path=${5}${n}
+    echo -e "Creating keys for $5-${n}.. \n"
+    /0chain/go/0chain.net/core/keys_file --host_url ${host_address} --n2n_ip ${host_ip} --port ${port} --path ${path} --keys_file /blob-keys/b0$4node${n}_keys.txt >>/config/nodes.yaml
+    status=$?
+    local n2n_ip="$5-${n}"
+    [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
+    if [[ "$status" -eq "0" ]]; then
+      cat <<EOF >>/config/nodes.yaml
+  n2n_ip: ${n2n_ip}              
+  public_ip: $2                   
+  port: ${3}${n}
+  path: ${5}${n}             
   description: localhost.$4${n} 
 EOF
     else
@@ -79,37 +115,8 @@ if [[ "$SHARDER" -ne "0" ]]; then
   echo -e "Creating keys for sharders \n"
   key_gen $SHARDER $PUBLIC_ENDPOINT $SPORT s sharder
 fi
+
 if [[ "$BLOBBER" -ne "0" ]]; then
-  echo -e "Creating keys for Blobbers.. \n"
-  for n in $(seq 1 $(($BLOBBER + 0))); do
-    n=$(validate_port $n)
-    echo -e "Creating keys for blobber-${n}.. \n"
-    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0bnode${n}_keys.txt" --keys_file_path "/blob-keys" --generate_keys true  >/dev/null 2>&1
-  done
+  echo -e "Creating keys for BLOBBER \n"
+  key_gen_blobber $BLOBBER $PUBLIC_ENDPOINT $BPORT b blobber
 fi
-if [[ ! -z "$ZBOX" ]]; then
-  echo -e "Creating keys for 0box.. \n"
-  go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "0box_keys_bls.txt" --keys_file_path "/zbox-keys" --generate_keys true  >/dev/null 2>&1
-  cat <<EOF >>/zbox-keys/0box_keys_bls.txt
-$PUBLIC_ENDPOINT
-$ZPORT
-EOF
-fi
-if [[ ! -z "$WORKER" ]]; then
-  echo -e "Creating keys for worker.. \n"
-  go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "blockworker_keys.txt" --keys_file_path "/worker-keys" --generate_keys true  >/dev/null 2>&1
-  cat <<EOF >>/worker-keys/blockworker_keys.txt
-$PUBLIC_ENDPOINT
-$WPORT
-EOF
-fi
-
-cat <<EOF >>/config/nodes.yaml
-
-message: "Straight from development"
-magic_block_number: 1
-starting_round: 0
-t_percent: 67
-k_percent: 75
-EOF
-#exec $@

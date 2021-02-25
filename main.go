@@ -1,12 +1,10 @@
 package main
 
 import (
-	"encoding/hex"
 	"flag"
-	"fmt"
 	"os"
 
-	"0chain.net/core/encryption"
+	"github.com/0chain/gosdk/core/zcncrypto"
 )
 
 func main() {
@@ -16,13 +14,14 @@ func main() {
 	hostURL := flag.String("host_url", "", "host_url")
 	n2nIP := flag.String("n2n_ip", "", "n2n_ip")
 	port := flag.String("port", "", "port")
-	path := flag.String("path", "", "path")
 	keysFile := flag.String("keys_file", "keys.txt", "keys_file")
 	flag.Parse()
+
 	if len(*hostURL) == 0 ||
 		len(*port) == 0 {
 		panic("Invalid input params")
 	}
+
 	if len(*publicKey) == 0 || len(*privateKey) == 0 {
 		sigScheme := zcncrypto.NewSignatureScheme(*clientSigScheme)
 		wallet, err := sigScheme.GenerateKeys()
@@ -32,6 +31,7 @@ func main() {
 		privateKey = &wallet.Keys[0].PrivateKey
 		publicKey = &wallet.Keys[0].PublicKey
 	}
+
 	file, err := os.Create(*keysFile)
 	if err != nil {
 		panic(err)
@@ -44,7 +44,4 @@ func main() {
 		file.WriteString(*n2nIP + "\n")
 	}
 	file.WriteString(*port)
-	if len(*path) != 0 {
-		file.WriteString(*path)
-	}
 }
