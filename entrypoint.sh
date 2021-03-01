@@ -1,12 +1,12 @@
 #!/bin/bash
 #set -x
-#MINER=3
-#SHARDER=2
-#BLOBBER=4
-#PUBLIC_ENDPOINT=example.com
-#MPORT=707
-#SPORT=717
-#dtype=PUBLIC
+MINER=3 # miner count
+SHARDER=2 # sharder count
+BLOBBER=4 # blobber count
+PUBLIC_ENDPOINT=localhost   # or ip or  domain pointing to your instance
+MPORT=707
+SPORT=717
+DTYPE=PUBLIC
 
 echo "v1.0.15"
 
@@ -22,7 +22,7 @@ key_gen_miner() {
   echo "${5}s:" >>/config/nodes.yaml
   for n in $(seq 1 $(($1 + 0))); do
     on=$n
-    n=$(validate_port $n)
+    # n=$(validate_port $n)
     echo -e "Creating keys for $5-${n}.. \n"
     go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0$4node${n}_keys.txt" --keys_file_path "/ms-keys" --generate_keys=true --print_private=true  >>/config/nodes.yaml
     status=$?
@@ -48,7 +48,7 @@ EOF
 key_gen() {
   echo "${5}s:" >>/config/nodes.yaml
   for n in $(seq 1 $(($1 + 0))); do
-    n=$(validate_port $n)
+    # n=$(validate_port $n)
     echo -e "Creating keys for $5-${n}.. \n"
     go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0$4node${n}_keys.txt" --keys_file_path "/ms-keys" --generate_keys true  >>/config/nodes.yaml
     status=$?
@@ -69,7 +69,9 @@ EOF
 
   done
 }
-
+mkdir -p /ms-keys
+mkdir -p /config
+mkdir -p /blob-keys
 if [[ "$MINER" -ne "0" ]]; then
   echo -e "Creating keys for miners \n"
   key_gen_miner $MINER $PUBLIC_ENDPOINT $MPORT m miner 
@@ -82,7 +84,7 @@ fi
 if [[ "$BLOBBER" -ne "0" ]]; then
   echo -e "Creating keys for Blobbers.. \n"
   for n in $(seq 1 $(($BLOBBER + 0))); do
-    n=$(validate_port $n)
+    # n=$(validate_port $n)
     echo -e "Creating keys for blobber-${n}.. \n"
     go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0bnode${n}_keys.txt" --keys_file_path "/blob-keys" --generate_keys true  >/dev/null 2>&1
   done

@@ -1,0 +1,10 @@
+
+version: "3.8"
+services:
+    keygen: 
+        build:
+          context: .
+        volumes:
+            - ./outputs/config:/config
+            - ./outputs/ms-keys:/ms-keys
+            - ./outputs/blob-keys:/blob-keys
