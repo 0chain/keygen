@@ -23,4 +23,7 @@ Run the container using docker-compose command.
 docker-compose up
 ```
 
-The container will exit once the keys are generated. You can find the keys in */outputs/ms-keys and /outputs/blob-keys dirs * . Nodes.yaml is stored in /outputs/config dir. 
+The container will exit once the keys are generated. You can find the keys in 
+*/outputs/ms-keys and /outputs/blob-keys dirs* . 
+
+Nodes.yaml is stored in /outputs/config dir. 
