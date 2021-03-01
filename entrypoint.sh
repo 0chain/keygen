@@ -30,11 +30,11 @@ key_gen_miner() {
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
     if [[ "$status" -eq "0" ]]; then
       cat <<EOF >>/config/nodes.yaml
-  n2n_ip: ${n2n_ip}               
-  public_ip: $2                   
-  port: ${3}${n}    
-  path: ${5}${n}               
-  description: localhost.$4${n} 
+  n2n_ip: ${n2n_ip}
+  public_ip: $2
+  port: ${3}${n}
+  path: ${5}${n}
+  description: localhost.$4${n}
   set_index: $((${on} - 1))
 EOF
     else
@@ -56,11 +56,11 @@ key_gen() {
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
     if [[ "$status" -eq "0" ]]; then
       cat <<EOF >>/config/nodes.yaml
-  n2n_ip: ${n2n_ip}              
-  public_ip: $2                   
-  port: ${3}${n}             
-  path: ${5}${n}      
-  description: localhost.$4${n} 
+  n2n_ip: ${n2n_ip}
+  public_ip: $2
+  port: ${3}${n}
+  path: ${5}${n}
+  description: localhost.$4${n}
 EOF
     else
       echo "Key generation failed"
@@ -69,10 +69,14 @@ EOF
 
   done
 }
-
+mkdir -p /ms-keys
+mkdir -p /config
+mkdir -p /zbox-keys
+mkdir -p /worker-keys
+mkdir -p /blob-keys
 if [[ "$MINER" -ne "0" ]]; then
   echo -e "Creating keys for miners \n"
-  key_gen_miner $MINER $PUBLIC_ENDPOINT $MPORT m miner 
+  key_gen_miner $MINER $PUBLIC_ENDPOINT $MPORT m miner
 fi
 
 if [[ "$SHARDER" -ne "0" ]]; then
@@ -113,3 +117,6 @@ t_percent: 67
 k_percent: 75
 EOF
 #exec $@
+
+echo -e "Sleeping.. \n"
+sleep 120
