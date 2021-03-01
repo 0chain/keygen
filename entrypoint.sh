@@ -33,7 +33,7 @@ key_gen_miner() {
   n2n_ip: ${n2n_ip}               
   public_ip: $2                   
   port: ${3}${n}    
-  path: ${5}${n}               
+  path: ${5}7${n}               
   description: localhost.$4${n} 
   set_index: $((${on} - 1))
 EOF
@@ -59,7 +59,7 @@ key_gen() {
   n2n_ip: ${n2n_ip}              
   public_ip: $2                   
   port: ${3}${n}             
-  path: ${5}${n}      
+  path: ${5}7${n}      
   description: localhost.$4${n} 
 EOF
     else
