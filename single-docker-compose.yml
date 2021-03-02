@@ -1,0 +1,9 @@
+
+version: "3.8"
+services:
+    singlekeygen: 
+        build:
+          context: .
+          dockerfile: ./single/Dockerfile
+        volumes:
+            - ./outputs/single:/keys

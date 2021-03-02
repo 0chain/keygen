@@ -15,6 +15,7 @@ func main() {
 	path := flag.String("keys_file_path", "keys.txt", "keys_file_path")
 	generateKeys := flag.Bool("generate_keys", false, "generate_keys")
 	printPrivate := flag.Bool("print_private", false, "print_private")
+	print := flag.Bool("print", false, "print")
 	flag.Parse()
 	keysFile := fmt.Sprintf("%s/%s", *path, *keysFileName)
 	var sigScheme = encryption.GetSignatureScheme(*clientSigScheme)
@@ -48,9 +49,11 @@ func main() {
 	}
 	clientID := encryption.Hash(pubKeyBytes)
 	reader.Close()
-	fmt.Printf("- id: %v\n", clientID)
-	fmt.Printf("  public_key: %v\n", publicKey)
-	if *printPrivate {
-		fmt.Printf("  private_key: %v\n", privateKey)
+	if *print {
+		fmt.Printf("- id: %v\n", clientID)
+		fmt.Printf("  public_key: %v\n", publicKey)
+		if *printPrivate {
+			fmt.Printf("  private_key: %v\n", privateKey)
+		}
 	}
 }

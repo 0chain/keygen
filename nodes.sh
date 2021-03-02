@@ -24,7 +24,7 @@ key_gen_miner() {
     on=$n
     # n=$(validate_port $n)
     echo -e "Creating keys for $5-${n}.. \n"
-    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0$4node${n}_keys.txt" --keys_file_path "/ms-keys" --generate_keys=true --print_private=true  >>/config/nodes.yaml
+    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0$4node${n}_keys.txt" --keys_file_path "/ms-keys" --generate_keys=true --print_private=true --print=true  >>/config/nodes.yaml
     status=$?
     local n2n_ip="$5-${n}"
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
@@ -50,7 +50,7 @@ key_gen() {
   for n in $(seq 1 $(($1 + 0))); do
     # n=$(validate_port $n)
     echo -e "Creating keys for $5-${n}.. \n"
-    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0$4node${n}_keys.txt" --keys_file_path "/ms-keys" --generate_keys true  >>/config/nodes.yaml
+    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0$4node${n}_keys.txt" --keys_file_path "/ms-keys" --generate_keys true --print=true >>/config/nodes.yaml
     status=$?
     local n2n_ip="$5-${n}"
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
@@ -86,12 +86,12 @@ if [[ "$BLOBBER" -ne "0" ]]; then
   for n in $(seq 1 $(($BLOBBER + 0))); do
     # n=$(validate_port $n)
     echo -e "Creating keys for blobber-${n}.. \n"
-    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0bnode${n}_keys.txt" --keys_file_path "/blob-keys" --generate_keys true  >/dev/null 2>&1
+    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0bnode${n}_keys.txt" --keys_file_path "/blob-keys" --generate_keys true
   done
 fi
 if [[ ! -z "$ZBOX" ]]; then
   echo -e "Creating keys for 0box.. \n"
-  go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "0box_keys_bls.txt" --keys_file_path "/zbox-keys" --generate_keys true  >/dev/null 2>&1
+  go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "0box_keys_bls.txt" --keys_file_path "/zbox-keys" --generate_keys true
   cat <<EOF >>/zbox-keys/0box_keys_bls.txt
 $PUBLIC_ENDPOINT
 $ZPORT
@@ -99,7 +99,7 @@ EOF
 fi
 if [[ ! -z "$WORKER" ]]; then
   echo -e "Creating keys for worker.. \n"
-  go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "blockworker_keys.txt" --keys_file_path "/worker-keys" --generate_keys true  >/dev/null 2>&1
+  go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "blockworker_keys.txt" --keys_file_path "/worker-keys" --generate_keys true
   cat <<EOF >>/worker-keys/blockworker_keys.txt
 $PUBLIC_ENDPOINT
 $WPORT

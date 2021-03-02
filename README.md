@@ -4,7 +4,7 @@ This repo is used to generate keys for sharders, miners and blobbers.
 
 ## Step 1. 
 
-Edit the number of miners, sharders and blobbers in entrypoint.sh. 
+Edit the number of miners, sharders and blobbers in nodes.sh if you need to generate keys for a network. 
 
 ## Step 2. 
 
@@ -17,13 +17,25 @@ mkdir outputs
 
 ## Step 3. 
 
-Run the container using docker-compose command.
+Run the container using docker-compose command depending on what is needed.
+
+
+### Generate keys for a network
 
 ```bash
-docker-compose up
+docker-compose -f nodes-docker-compose.yml up
 ```
 
 The container will exit once the keys are generated. You can find the keys in 
 */outputs/ms-keys and /outputs/blob-keys dirs* . 
 
 Nodes.yaml is stored in /outputs/config dir. 
+
+### Generate a single pair of keys
+
+```bash
+docker-compose -f single-docker-compose.yaml up
+```
+
+The container will exit once the keys are generated. You can find the keys in
+./outputs/single dir.
