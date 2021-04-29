@@ -1,7 +1,4 @@
-FROM golang:latest
-
+FROM 0chainkube/zchain_genkeys
 COPY ./entrypoint.sh /root/entrypoint.sh
-COPY ./keys_file /0chain/go/0chain.net/core/
-WORKDIR /0chain/go/0chain.net/core/
-RUN chmod u+x /0chain/go/0chain.net/core/keys_file
+COPY ./key_gen.go /0chain/go/0chain.net/core/
 ENTRYPOINT ["sh", "/root/entrypoint.sh"]
