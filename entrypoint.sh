@@ -34,18 +34,18 @@ key_gen_miner() {
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
     if [[ "$status" -eq "0" ]]; then
       cat <<EOF >>/ms-keys/b0$4node${n}_keys.txt
-${PUBLIC_ENDPOINT}              
-$PUBLIC_IP                   
-${3}${n}             
-${5}${n}      
-description for ${5}${n} 
+${PUBLIC_ENDPOINT}
+$PUBLIC_IP
+${3}${n}
+${5}${n}
+description for ${5}${n}
 EOF
       cat <<EOF >>/config/nodes.yaml
-  n2n_ip: ${n2n_ip}               
-  public_ip: $2                   
-  port: ${3}${n}    
-  path: ${5}${n}               
-  description: localhost.$4${n} 
+  n2n_ip: ${n2n_ip}
+  public_ip: $2
+  port: ${3}${n}
+  path: ${5}${n}
+  description: localhost.$4${n}
   set_index: $((${on} - 1))
 EOF
     else
@@ -67,18 +67,18 @@ key_gen() {
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
     if [[ "$status" -eq "0" ]]; then
       cat <<EOF >>/ms-keys/b0$4node${n}_keys.txt
-${PUBLIC_ENDPOINT}              
-$PUBLIC_IP                   
-${3}${n}             
-${5}${n}      
-description for ${5}${n} 
+${PUBLIC_ENDPOINT}
+$PUBLIC_IP
+${3}${n}
+${5}${n}
+description for ${5}${n}
 EOF
       cat <<EOF >>/config/nodes.yaml
-  n2n_ip: ${n2n_ip}              
-  public_ip: $2                   
-  port: ${3}${n}             
-  path: ${5}${n}      
-  description: localhost.$4${n} 
+  n2n_ip: ${n2n_ip}
+  public_ip: $2
+  port: ${3}${n}
+  path: ${5}${n}
+  description: localhost.$4${n}
 EOF
     else
       echo "Key generation failed"
@@ -104,18 +104,18 @@ key_gen_blobber() {
     [[ $DTYPE == "PUBLIC" ]] && n2n_ip=$2
     if [[ "$status" -eq "0" ]]; then
       cat <<EOF >>/blob-keys/b0bnode${n}_keys.txt
-${PUBLIC_ENDPOINT}              
-$PUBLIC_IP                   
-${3}${n}             
-${5}${n}      
-description for ${5}${n} 
+${PUBLIC_ENDPOINT}
+$PUBLIC_IP
+${3}${n}
+${5}${n}
+description for ${5}${n}
 EOF
       cat <<EOF >>/config/nodes.yaml
-  n2n_ip: ${n2n_ip}              
-  public_ip: $2                   
+  n2n_ip: ${n2n_ip}
+  public_ip: $2
   port: ${3}${n}
-  path: ${5}${n}             
-  description: localhost.$4${n} 
+  path: ${5}${n}
+  description: localhost.$4${n}
 EOF
     else
       echo "Key generation failed"
