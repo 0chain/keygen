@@ -113,7 +113,7 @@ cat <<EOF >>/config/nodes.yaml
 message: "Straight from development"
 magic_block_number: 1
 starting_round: 0
-t_percent: 67
+t_percent: 66
 k_percent: 75
 EOF
 #exec $@
