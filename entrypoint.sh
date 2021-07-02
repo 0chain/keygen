@@ -74,6 +74,10 @@ mkdir -p /config
 mkdir -p /zbox-keys
 mkdir -p /worker-keys
 mkdir -p /blob-keys
+mkdir -p /cons-keys
+mkdir -p /prov-keys
+mkdir -p /auth-keys
+
 if [[ "$MINER" -ne "0" ]]; then
   echo -e "Creating keys for miners \n"
   key_gen_miner $MINER $PUBLIC_ENDPOINT $MPORT m miner
@@ -89,6 +93,30 @@ if [[ "$BLOBBER" -ne "0" ]]; then
     n=$(validate_port $n)
     echo -e "Creating keys for blobber-${n}.. \n"
     go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "b0bnode${n}_keys.txt" --keys_file_path "/blob-keys" --generate_keys true  >/dev/null 2>&1
+  done
+fi
+if [[ "$CONSUMER" -ne "0" ]]; then
+  echo -e "Creating keys for CONSUMER.. \n"
+  for n in $(seq 1 $(($CONSUMER + 0))); do
+    n=$(validate_port $n)
+    echo -e "Creating keys for consumer-${n}.. \n"
+    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "c0cnode${n}_keys.txt" --keys_file_path "/cons-keys" --generate_keys true  >/dev/null 2>&1
+  done
+fi
+if [[ "$PROVIDER" -ne "0" ]]; then
+  echo -e "Creating keys for PROVIDER.. \n"
+  for n in $(seq 1 $(($PROVIDER + 0))); do
+    n=$(validate_port $n)
+    echo -e "Creating keys for provider-${n}.. \n"
+    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "p0pnode${n}_keys.txt" --keys_file_path "/prov-keys" --generate_keys true  >/dev/null 2>&1
+  done
+fi
+if [[ "$AUTHORIZER" -ne "0" ]]; then
+  echo -e "Creating keys for AUTHORIZER.. \n"
+  for n in $(seq 1 $(($AUTHORIZER + 0))); do
+    n=$(validate_port $n)
+    echo -e "Creating keys for authorizer-${n}.. \n"
+    go run key_gen.go --signature_scheme "bls0chain" --keys_file_name "a0node${n}_keys.txt" --keys_file_path "/auth-keys" --generate_keys true  >/dev/null 2>&1
   done
 fi
 if [[ ! -z "$ZBOX" ]]; then
