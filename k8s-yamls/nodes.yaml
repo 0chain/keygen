@@ -1,0 +1,50 @@
+miners:
+- id: da9b11ae4b25809f0704cb1bea7b7057e69f19b0bf536ddbe7ed65ff770f398a
+  public_key: f96ebfbe85f116c66c8eea54f8b56c0d987543c1fa6ac10506af61e9f0d6070c9bb69d0ffede4d3d192e25f4f19f296e81b4a9f8290573683f0126ff282e7f1a
+  private_key: bf477b1e5b2ee0a896525e27b9342c409f4d083bc4466cf1db949a8613f2d510
+  n2n_ip: helm.0chain.net
+  public_ip: helm.0chain.net
+  port: 31201
+  path: miner01
+  description: localhost.m01
+  set_index: 0
+- id: 393540f217f399c15f6fa7b45fe0879aeabb0c3a82645119b07d16c0eb40d89e
+  public_key: 1a3f8e154925df03b73e1583a77eb51915fc59b6ff72c3e1c7c97ecbac10d011d0872fbab90ae5d9f3efa9a8c6931fd54a5126dbe4534656daee6959f6464581
+  private_key: aa94cd5791f9c67b140568fa4dbd99df47dee28f122f52290a983648a2d6e514
+  n2n_ip: helm.0chain.net
+  public_ip: helm.0chain.net
+  port: 31202
+  path: miner02
+  description: localhost.m02
+  set_index: 1
+- id: 577277ea1c6ca05926898675a6dccaf8a4bcc80111f2befaba13c9bdc7177c84
+  public_key: 0792c76e3f4c1d2e4509457cd22ed66ceb2aad5e57acfcc96d250eda7b056c06017673ae1144c882442c40cdaba064ee0e3b22daf42ab082da52126ee590bd8c
+  private_key: c6a3d9e0bf0d61e20c3b7671e25a9c93db6acc542d97d52aa6093b78dddd920f
+  n2n_ip: helm.0chain.net
+  public_ip: helm.0chain.net
+  port: 31203
+  path: miner03
+  description: localhost.m03
+  set_index: 2
+sharders:
+- id: df51aad588fa97c43f31b781a89799aabe78e4f94305ac11852a87014bcd5cfc
+  public_key: c85241db50ca5d7398e4f3fec33802732fafd2d39f48b35610cc0e7eaf2bfd1dd50e242232fa9661c0aad158769774dd0d8058548eba2a57a431b9d4ba4fb60c
+  n2n_ip: helm.0chain.net
+  public_ip: helm.0chain.net
+  port: 31101
+  path: sharder01
+  description: localhost.s01
+- id: 189b69220c244627124199478afa3d99b04aef3745cd53625823beefd5ec71b2
+  public_key: 6aa75c600653f49e47a4e06e5acdf0abbd7ad1a23ba6a1b11c8cb18bcba4820a5304dfb4c3d49e6576aa0e3312d7ac2d4c9e802db8d1a771a941a6e0b722088c
+  n2n_ip: helm.0chain.net
+  public_ip: helm.0chain.net
+  port: 31102
+  path: sharder02
+  description: localhost.s02
+
+message: "Straight from development"
+magic_block_number: 1
+starting_round: 0
+t_percent: 66
+k_percent: 75
+magic_block_filename: "magicBlock"

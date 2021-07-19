@@ -1,0 +1,66 @@
+# Default values for gen-keys.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+genKeysImage:
+  repository: 0chaindev/zchain_genkeys
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+magicBlockImage:
+  repository: 0chaindev/zchain_genkeys
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: 
+  - name: regcred
+
+nameOverride: ""
+
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env:
+  MINER: "3"
+  SHARDER: "2"
+  BLOBBER: "6"
+  PUBLIC_ENDPOINT: "helm.0chain.net"   #Input
+  MPORT: "312"
+  SPORT: "311"
+  ZPORT: "31081"
+  ZBOX: "1"
+  WORKER: "1"
+  DTYPE: "PUBLIC"     #Input

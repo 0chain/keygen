@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    {{- include "gen-keys.labels" . | nindent 4 }}
+  name: {{ include "gen-keys.fullname" . }}
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      containers:
+        - name: magic-block
+          imagePullPolicy: {{ .Values.magicBlockImage.pullPolicy }}
+          image: "{{ .Values.magicBlockImage.repository }}:{{ .Values.magicBlockImage.tag | default .Chart.AppVersion }}"
+          args:
+            - bash
+            - -c
+            # - "date; echo sleeping....; sleep 300s;"
+            - "./bin/magicBlock --config_file nodes"
+          volumeMounts:
+            - mountPath: /config/nodes.yaml
+              name: nodes-yaml-pvc
+              subPath: nodes.yaml
+      restartPolicy: Never
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: nodes-yaml-pvc
+          configMap:
+            name: nodes
+            defaultMode: 0755

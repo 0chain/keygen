@@ -1,0 +1,24 @@
+delay:
+  - from: miner-02
+    to: miner-03
+    time: 100 
+
+  - from: miner-02
+    to: miner-01
+    time: 100 
+
+  - from: miner-03
+    to: miner-02
+    time: 100 
+
+  - from: miner-03
+    to: miner-01
+    time: 100 
+
+  - from: miner-01
+    to: miner-02
+    time: 100 
+
+  - from: miner-01
+    to: miner-03
+    time: 100 
